@@ -1,0 +1,23 @@
+apiVersion: build.pivotal.io/v1alpha1
+kind: Image
+metadata:
+  name: drupal8-demo-harbor
+  namespace: kpack-builders
+spec:
+  tag: harbor.tanzu.alexguedes.com/drupal/drupal8
+  serviceAccount: kpack-service-account
+  builder:
+    name: default
+    kind: ClusterBuilder
+  source:
+    git:
+      url: https://github.com/aguedes-pivotal/drupal8-cnb.git
+      revision: master
+  build:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 2G
+      requests:
+        cpu: 100m
+        memory: 1G

@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: Secret
+data:
+  POSTGRES_USER: ZHJ1cGFs
+  POSTGRES_DB: ZHJ1cGFsX2Ri
+  POSTGRES_PASSWORD: ZHJ1cGFsMTIz
+metadata:
+  name: postgres-secret
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-claim
+  labels:
+    app: drupal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+        tier: frontend
+    spec:
+      containers:
+        - image: aguedespivotal/drupal7-demo:b13.20200316.133412
+          name: drupal
+          env:
+          - name: PORT
+            value: '8080'
+          envFrom:
+          - secretRef:
+              name: postgres-secret
+          ports:
+            - containerPort: 8080
+              name: drupal
+          volumeMounts:
+            - name: drupal
+              mountPath: /workspace/htdocs/modules
+              subPath: modules
+            - name: drupal
+              mountPath: /workspace/htdocs/profiles
+              subPath: profiles
+            - name: drupal
+              mountPath: /workspace/htdocs/themes
+              subPath: themes
+      volumes:
+        - name: drupal
+          persistentVolumeClaim:
+            claimName: drupal-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    app: postgres
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres
+    tier: postgreSQL
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-claim
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgres
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+        tier: postgreSQL
+    spec:
+      containers:
+        - image: postgres:latest
+          name: postgresql
+          envFrom:
+          - secretRef:
+              name: postgres-secret
+          ports:
+            - containerPort: 5432
+              name: postgresql
+          volumeMounts:
+            - name: postgresql
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: postgresql
+          persistentVolumeClaim:
+            claimName: postgres-claim

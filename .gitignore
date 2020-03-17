@@ -1,0 +1,5 @@
+/concourse/ci/k8s.yml
+/k8s/aguedes-aws-dev-1-automationadmin.yml
+/datadog/README-with-secrets.md
+/kpack/dockerhub/1-kpack-prep-dockerhub-with-secrets.yml
+/kpack/1-kpack-prep-with-secrets.yml

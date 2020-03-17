@@ -1,0 +1,5 @@
+container-image: harbor.tanzu.alexguedes.com/drupal/drupal8
+kubernetes-namespace: default
+kubernetes-deployment: drupal
+kubernetes-container: drupal
+drupal-update-endpoint: http://drupal.tanzu.alexguedes.com/update.php/selection

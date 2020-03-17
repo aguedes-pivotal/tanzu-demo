@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kpack-builders
+---
+apiVersion: build.pivotal.io/v1alpha1
+kind: ClusterBuilder
+metadata:
+  namespace: kpack-builders
+  name: default
+spec:
+  image: cloudfoundry/cnb:0.0.84-cflinuxfs3 # using this version because a bug with latest - revert back to cnb:full
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: harbor-creds
+  namespace: kpack-builders
+  annotations:
+    build.pivotal.io/docker: https://harbor.tanzu.alexguedes.com
+type: kubernetes.io/basic-auth
+stringData:
+  username: USER
+  password: PASSWORD
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-creds
+  namespace: kpack-builders
+  annotations:
+    build.pivotal.io/git: https://github.com
+type: kubernetes.io/basic-auth
+stringData:
+  username: USER
+  password: PASSWORD
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kpack-service-account
+  namespace: kpack-builders
+secrets:
+  - name: harbor-creds
+  - name: github-creds

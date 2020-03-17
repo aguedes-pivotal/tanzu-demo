@@ -1,0 +1,28 @@
+concourse:
+    web:
+        externalUrl: http://concourse.tanzu.alexguedes.com
+        bindPort: 80
+        localAuth:
+            enabled: true
+        auth:
+            mainTeam:
+                config: |
+                  roles:
+                  - name: owner
+                    local:
+                      users: ["admin"]
+                localUser: admin
+            github:
+                enabled: false
+        kubernetes:
+            enabled: true
+        configRBAC: |
+            owner:
+            - SetTeam
+            member:
+            - CreateBuild
+web:
+    service:
+        type: LoadBalancer
+secrets:
+    localUsers: "admin:keepitsimple"
