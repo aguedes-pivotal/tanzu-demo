@@ -39,7 +39,7 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: aguedespivotal/drupal7-demo:b13.20200316.133412
+        - image: harbor.tanzu.alexguedes.com/drupal/drupal8:latest
           name: drupal
           env:
           - name: PORT
