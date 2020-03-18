@@ -1,13 +1,29 @@
-kubernetes-config: |
+# Pre-production
+kubernetes-config-pre-prod: |
 
 # Select a context from the Kubernetes config. Leave empty to use default context.
-kubernetes-context:
+kubernetes-contex-pre-prod:
 
 # Match this attribute with your cluster version.
-kubernetes-version: 1.17
+kubernetes-version-pre-prod: 1.17
 
 # Set to true to disable TLS verification when using kubectl commands.
-kubernetes-skip-tls-verification: true
+kubernetes-skip-tls-verification-pre-prod: true
 
 # Set how long to wait for pods to run (seconds), 0 means "don't wait".
-kubernetes-wait-until-ready: 180
+kubernetes-wait-until-ready-pre-prod: 180
+
+# Production
+kubernetes-config-prod: |
+
+# Select a context from the Kubernetes config. Leave empty to use default context.
+kubernetes-context-prod:
+
+# Match this attribute with your cluster version.
+kubernetes-version-prod: 1.17
+
+# Set to true to disable TLS verification when using kubectl commands.
+kubernetes-skip-tls-verification-prod: true
+
+# Set how long to wait for pods to run (seconds), 0 means "don't wait".
+kubernetes-wait-until-ready-prod: 180

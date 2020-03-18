@@ -1,49 +1,90 @@
 resource_types:
-- name: kubernetes
+- name: kubernetes-pre-prod
   type: docker-image
   source:
     repository: zlabjp/kubernetes-resource
-    tag: "{{kubernetes-version}}"
+    tag: "{{kubernetes-version-pre-prod}}"
+- name: kubernetes-prod
+  type: docker-image
+  source:
+    repository: zlabjp/kubernetes-resource
+    tag: "{{kubernetes-version-prod}}"
 - name: concourse-http-resource
   type: docker-image
   source:
     repository: edtan1/concourse-http-resource
 
 resources:
-- name: kubernetes-cluster
-  type: kubernetes
+- name: kubernetes-cluster-pre-prod
+  type: kubernetes-pre-prod
   icon: kubernetes
   source:
-    insecure_skip_tls_verify: {{kubernetes-skip-tls-verification}}
-    kubeconfig: {{kubernetes-config}}
-    context: {{kubernetes-context}}
+    insecure_skip_tls_verify: {{kubernetes-skip-tls-verification-pre-prod}}
+    kubeconfig: {{kubernetes-config-pre-prod}}
+    context: {{kubernetes-context-pre-prod}}
+    namespace: {{kubernetes-namespace}}
+- name: kubernetes-cluster-prod
+  type: kubernetes-prod
+  icon: kubernetes
+  source:
+    insecure_skip_tls_verify: {{kubernetes-skip-tls-verification-prod}}
+    kubeconfig: {{kubernetes-config-prod}}
+    context: {{kubernetes-context-prod}}
     namespace: {{kubernetes-namespace}}
 - name: container-image
   type: docker-image
   icon: docker
   source:
     repository: ((container-image))
-- name: drupal-http-endpoint
+- name: drupal-http-endpoint-pre-prod
   type: concourse-http-resource
   source:
-    url: {{drupal-update-endpoint}}
+    url: {{drupal-update-endpoint-pre-prod}}
+    method: "GET"
+- name: drupal-http-endpoint-prod
+  type: concourse-http-resource
+  source:
+    url: {{drupal-update-endpoint-prod}}
     method: "GET"
 
 jobs:
-- name: deploy-latest-container-image
+- name: deploy-image-pre-prod
   plan:
   - get: container-image
     trigger: true
     params:
       skip_download: true
-  - put: kubernetes-cluster
+  - put: kubernetes-cluster-pre-prod
     params:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
-      wait_until_ready: {{kubernetes-wait-until-ready}}
-- name: update-drupal
+      wait_until_ready: {{kubernetes-wait-until-ready-pre-prod}}
+- name: update-drupal-pre-prod
   plan:
-  - get: kubernetes-cluster
-    passed: [deploy-latest-container-image]
+  - get: container-image
+    passed: [deploy-image-pre-prod]
     trigger: true
-  - put: drupal-http-endpoint
+    params:
+      skip_download: true
+  - put: drupal-http-endpoint-pre-prod
+- name: deploy-image-prod
+  plan:
+  - get: container-image
+    passed: [update-drupal-pre-prod]
+    trigger: true
+    params:
+      skip_download: true
+  - put: kubernetes-cluster-prod
+    params:
+      kubectl: |
+        set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
+      wait_until_ready: {{kubernetes-wait-until-ready-prod}}
+- name: update-drupal-prod
+  plan:
+  - get: container-image
+    passed: [deploy-image-prod]
+    trigger: true
+    params:
+      skip_download: true
+  - put: drupal-http-endpoint-prod
+
