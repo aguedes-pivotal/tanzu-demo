@@ -38,9 +38,9 @@ jobs:
     config:
       params:
         ZELENIUMENDPOINT: ((zeleniumendpoint))
-        DRUPALUSERNAME: ((drupalusername))
+        DRUPALUSERNAME: ((zeleniumendpoint))
         DRUPALPASSWORD: ((drupalpassword))
-        BROWSERTYPE: chrome
+        BROWSERTYPE: firefox
       inputs:
       - name: git-repo
       platform: linux

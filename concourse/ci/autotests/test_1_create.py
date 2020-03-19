@@ -4,12 +4,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
-import sys
+import os
+
+zelEndpoint = os.environ['ZELENIUMENDPOINT']
+drupalEndpoint = os.environ['DRUPALENDPOINT']
+drupalUser = os.environ['DRUPALUSERNAME']
+drupalPass = os.environ['DRUPALPASSWORD']
+platform = os.environ['BROWSERTYPE']
 
 driver = webdriver.Remote(
-   command_executor="http://ae4de69e06ae24c19a539949ff38ecb8-1340096117.eu-west-1.elb.amazonaws.com/wd/hub",
+   command_executor=zelEndpoint,
    desired_capabilities={
-            "browserName": "chrome",
+            "browserName": platform,
             "platform": "LINUX"
         })
 print ("Video: "  + driver.session_id)
@@ -18,19 +24,19 @@ try:
     driver.implicitly_wait(30)
     #driver.maximize_window() # Note: driver.maximize_window does not work on Linux selenium version v2, instead set window size and window position like driver.set_window_position(0,0) and driver.set_window_size(1920,1080)
 
-    driver.get("http://drupal.tanzu.alexguedes.com/user/login")
+    driver.get(drupalEndpoint+"/user/login")
     driver.add_cookie({"name": "zaleniumMessage", "value": "Entering Admin Credentials"})
     elem = driver.find_element_by_id("edit-name")
-    elem.send_keys("admin")
+    elem.send_keys(drupalUser)
     elem = driver.find_element_by_id("edit-pass")
-    elem.send_keys("admin123")
+    elem.send_keys(drupalPass)
     elem = driver.find_element_by_id("edit-submit")
     elem.click()
     driver.add_cookie({"name": "zaleniumMessage", "value": "Added the entry"})
     time.sleep(5)
-    driver.get("http://drupal.tanzu.alexguedes.com/admin/content")
-    driver.get("http://drupal.tanzu.alexguedes.com/node/add")
-    driver.get("http://drupal.tanzu.alexguedes.com/node/add/page")
+    driver.get(drupalEndpoint + "/admin/content")
+    driver.get(drupalEndpoint + "/node/add")
+    driver.get(drupalEndpoint + "/node/add/page")
     time.sleep(2)
     elem = driver.find_element_by_id("edit-title-0-value")
     elem.send_keys("A test page to check connected services")
