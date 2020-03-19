@@ -77,7 +77,8 @@ jobs:
   - put: drupal-http-endpoint-pre-prod
 
 
-- name: test-pre-prod
+
+- name: test-pre-prod-chrome
   plan:
   - get: container-image
     passed: [update-drupal-pre-prod]
@@ -85,6 +86,12 @@ jobs:
   - get: git-repo
   - task: test
     config:
+      params:
+        ZELENIUMENDPOINT: ((zeleniumendpoint))
+        DRUPALENDPOINT: ((drupalendpoint))
+        DRUPALUSERNAME: ((drupalusername))
+        DRUPALPASSWORD: ((drupalpassword))
+        BROWSERTYPE: chrome
       inputs:
       - name: git-repo
       platform: linux
@@ -92,15 +99,38 @@ jobs:
         type: docker-image
         source: {repository: python, tag: "3"}
       run:
-        path: "git-repo/automatedTesting/test.sh"
-        args: ["git-repo/automatedTesting/requirements.txt", "git-repo/automatedTesting/test_1.py"]
+        path: "git-repo/concourse/ci/autotests/testrun.sh"
+        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/"]
 
+- name: test-pre-prod-firefox
+  plan:
+  - get: container-image
+    passed: [update-drupal-pre-prod]
+    trigger: true
+  - get: git-repo
+  - task: test
+    config:
+      params:
+        ZELENIUMENDPOINT: ((zeleniumendpoint))
+        DRUPALENDPOINT: ((drupalendpoint))
+        DRUPALUSERNAME: ((drupalusername))
+        DRUPALPASSWORD: ((drupalpassword))
+        BROWSERTYPE: firefox
+      inputs:
+      - name: git-repo
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: python, tag: "3"}
+      run:
+        path: "git-repo/concourse/ci/autotests/testrun.sh"
+        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/"]
 
 
 - name: deploy-image-prod
   plan:
   - get: container-image
-    passed: [test-pre-prod]
+    passed: [test-pre-prod-firefox,test-pre-prod-chrome]
     trigger: true
     params:
       skip_download: true

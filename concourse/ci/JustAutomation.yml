@@ -17,6 +17,7 @@ jobs:
     config:
       params:
         ZELENIUMENDPOINT: ((zeleniumendpoint))
+        DRUPALENDPOINT: ((drupalendpoint))
         DRUPALUSERNAME: ((drupalusername))
         DRUPALPASSWORD: ((drupalpassword))
         BROWSERTYPE: chrome
@@ -38,7 +39,8 @@ jobs:
     config:
       params:
         ZELENIUMENDPOINT: ((zeleniumendpoint))
-        DRUPALUSERNAME: ((zeleniumendpoint))
+        DRUPALENDPOINT: ((drupalendpoint))
+        DRUPALUSERNAME: ((drupalusername))
         DRUPALPASSWORD: ((drupalpassword))
         BROWSERTYPE: firefox
       inputs:

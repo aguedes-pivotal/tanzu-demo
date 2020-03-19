@@ -5,20 +5,23 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 import os
-
+import datetime
 zelEndpoint = os.environ['ZELENIUMENDPOINT']
 drupalEndpoint = os.environ['DRUPALENDPOINT']
 drupalUser = os.environ['DRUPALUSERNAME']
 drupalPass = os.environ['DRUPALPASSWORD']
-platform = os.environ['BROWSERTYPE']
+bowsertype = os.environ['BROWSERTYPE']
+
+testName = "Create Test using " + bowsertype + " T:" + datetime.now()
 
 driver = webdriver.Remote(
    command_executor=zelEndpoint,
    desired_capabilities={
-            "browserName": platform,
-            "platform": "LINUX"
+            "browserName": bowsertype,
+            "platform": "LINUX",
+            "name": testName
         })
-print ("Video: "  + driver.session_id)
+print ("Video: " + driver.session_id)
 
 try:
     driver.implicitly_wait(30)
