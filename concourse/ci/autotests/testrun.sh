@@ -2,4 +2,6 @@
 set -e
 
 pip install --no-cache-dir -r $1
-python $2
+for filename in $2/*.py; do
+        python "$filename"
+done

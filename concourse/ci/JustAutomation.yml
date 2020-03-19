@@ -1,0 +1,52 @@
+
+resources:
+- name: git-repo
+  type: git
+  webhook_token: ((webhook_token))
+  source:
+    uri: ((git_repo))
+    branch: ((git_branch))
+
+
+jobs:
+- name: test-pre-prod-chrome
+  plan:
+  - get: git-repo
+    trigger : true
+  - task: test
+    config:
+      params:
+        ZELENIUMENDPOINT: ((zeleniumendpoint))
+        DRUPALUSERNAME: ((drupalusername))
+        DRUPALPASSWORD: ((drupalpassword))
+        BROWSERTYPE: chrome
+      inputs:
+      - name: git-repo
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: python, tag: "3"}
+      run:
+        path: "git-repo/concourse/ci/autotests/testrun.sh"
+        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/"]
+
+- name: test-pre-prod-firefox
+  plan:
+  - get: git-repo
+    trigger : true
+  - task: test
+    config:
+      params:
+        ZELENIUMENDPOINT: ((zeleniumendpoint))
+        DRUPALUSERNAME: ((drupalusername))
+        DRUPALPASSWORD: ((drupalpassword))
+        BROWSERTYPE: chrome
+      inputs:
+      - name: git-repo
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: python, tag: "3"}
+      run:
+        path: "git-repo/concourse/ci/autotests/testrun.sh"
+        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/test_1_create.py"]
