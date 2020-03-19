@@ -12,7 +12,7 @@ drupalUser = os.environ['DRUPALUSERNAME']
 drupalPass = os.environ['DRUPALPASSWORD']
 bowsertype = os.environ['BROWSERTYPE']
 
-testName = "Create Test using " + bowsertype + " T:" + datetime.datetime.now()
+testName = "Create Test using " + bowsertype + " T:" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 driver = webdriver.Remote(
    command_executor=zelEndpoint,
