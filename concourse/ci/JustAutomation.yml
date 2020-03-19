@@ -49,4 +49,4 @@ jobs:
         source: {repository: python, tag: "3"}
       run:
         path: "git-repo/concourse/ci/autotests/testrun.sh"
-        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/test_1_create.py"]
+        args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/"]
