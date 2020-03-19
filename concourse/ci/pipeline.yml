@@ -15,6 +15,13 @@ resource_types:
     repository: edtan1/concourse-http-resource
 
 resources:
+- name: git-repo
+  type: git
+  webhook_token: ((webhook_token))
+  source:
+    uri: ((git_repo))
+    branch: ((git_branch))
+
 - name: kubernetes-cluster-pre-prod
   type: kubernetes-pre-prod
   icon: kubernetes
@@ -59,6 +66,7 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-pre-prod}}
+
 - name: update-drupal-pre-prod
   plan:
   - get: container-image
@@ -67,10 +75,32 @@ jobs:
     params:
       skip_download: true
   - put: drupal-http-endpoint-pre-prod
-- name: deploy-image-prod
+
+
+- name: test-pre-prod
   plan:
   - get: container-image
     passed: [update-drupal-pre-prod]
+    trigger: true
+  - get: git-repo
+  - task: test
+    config:
+      inputs:
+      - name: git-repo
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: python, tag: "3"}
+      run:
+        path: "git-repo/automatedTesting/test.sh"
+        args: ["git-repo/automatedTesting/requirements.txt", "git-repo/automatedTesting/test_1.py"]
+
+
+
+- name: deploy-image-prod
+  plan:
+  - get: container-image
+    passed: [test-pre-prod]
     trigger: true
     params:
       skip_download: true
