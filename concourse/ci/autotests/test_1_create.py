@@ -24,7 +24,7 @@ driver = webdriver.Remote(
         })
 
 
-print("Live view of test can be found here: " + zelEndpoint + "/dashboard/#")
+print("Live view of test can be found here: " + zelEndpoint + "/grid/admin/live")
 
 try:
     driver.implicitly_wait(30)
@@ -57,8 +57,9 @@ except Exception as E:
    driver.quit()
    print("There was an error" + E)
    sys.exit("There was an error, please check the logs")
+   print("See test result" + zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
 finally:
-
-    print (zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
+    print ("See test result" + zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
+    print ("See all tests" + zelEndpoint)
     driver.add_cookie({"name": "zaleniumTestPassed", "value": "true"})
     driver.quit()
