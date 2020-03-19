@@ -11,14 +11,14 @@ zelEndpoint = os.environ['ZELENIUMENDPOINT']
 drupalEndpoint = os.environ['DRUPALENDPOINT']
 drupalUser = os.environ['DRUPALUSERNAME']
 drupalPass = os.environ['DRUPALPASSWORD']
-bowsertype = os.environ['BROWSERTYPE']
+browsertype = os.environ['BROWSERTYPE']
 
-testName = "Create test using " + bowsertype + " T:" + datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+testName = "Create test using " + browsertype + " T:" + datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
 driver = webdriver.Remote(
    command_executor=zelEndpoint + "/wd/hub",
    desired_capabilities={
-            "browserName": bowsertype,
+            "browserName": browsertype,
             "platform": "LINUX",
             "name": testName
         })
@@ -44,9 +44,9 @@ try:
     driver.get(drupalEndpoint + "/node/add/page")
     time.sleep(2)
     elem = driver.find_element_by_id("edit-title-0-value")
-    elem.send_keys("A test page to check connected services")
+    elem.send_keys("Test Page -" + browsertype)
     actions = webdriver.ActionChains(driver)
-    actions.send_keys(Keys.TAB,Keys.TAB,"A test to check saving of a web-page")
+    actions.send_keys(Keys.TAB,Keys.TAB,"Test content for the page.")
     actions.perform()
     time.sleep(2)
     elem = driver.find_element_by_id("edit-submit")
@@ -59,7 +59,7 @@ except Exception as E:
    sys.exit("There was an error, please check the logs")
    print("See test result" + zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
 finally:
-    print ("See test result" + zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
-    print ("See all tests" + zelEndpoint)
+    print ("See test result " + zelEndpoint + "/dashboard/?q=" + urllib.parse.quote(testName))
+    print ("See all tests " + zelEndpoint)
     driver.add_cookie({"name": "zaleniumTestPassed", "value": "true"})
     driver.quit()

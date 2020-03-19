@@ -57,8 +57,6 @@ resources:
 jobs:
 - name: deploy-image-pre-prod
   plan:
-  - get: git-repo
-    trigger : true
   - get: container-image
     trigger: true
     params:
