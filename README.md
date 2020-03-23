@@ -30,6 +30,7 @@ _Note that you will need to download and install the `tmc` cli to be able to aut
 
 ### Application deployment requirements
 Three clusters will be used for the demo with the following configuration:
+
 **Management Kubernetes Cluster**
 * Tanzu Mission Control managed Cluster deployed with ClusterAPI to AWS
 * Tanzu Kubernetes Grid - Kubernetes 1.17
