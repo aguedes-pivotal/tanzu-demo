@@ -1,0 +1,7 @@
+apiVersion: build.pivotal.io/v1alpha1
+kind: ClusterBuilder
+metadata:
+  namespace: kpack-builders
+  name: test-builder
+spec:
+  image: cloudfoundry/cnb:cflinuxfs3

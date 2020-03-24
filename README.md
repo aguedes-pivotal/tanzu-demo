@@ -19,7 +19,7 @@ _Note that you will need to download and install the `tmc` cli to be able to aut
 ### Policies
 8. To demonostrate how policies work, go to **Policies**, select to create a policy by Namespace and select **Image registry**. Select the **Workspace** (or a specific namespace if you want) and **Add image registry policy**. You should add your own Harbor repository here (i.e.: harbor.tanzu.alexguedes.com).
 9. Try and run a Kubernetes Pod now using a Docker Hub image: `kubectl -n aguedes-ns run --image=nginx --restart=Never nginx` - it should fail with the following: `Error from server (failed to match image policies: spec.containers[0].image: Forbidden: no matching image policy): admission webhook "validation.policies.tmc.cloud.vmware.com" denied the request: failed to match image policies: spec.containers[0].image: Forbidden: no matching image policy`.
-10. Let's now try the same thing with an image part of the Harbor repository configured: `kubectl -n aguedes-ns run --image=harbor.tanzu.alexguedes.com/nginx/nginx:v1 --restart=Never nginx`.
+10. Let's now try the same thing with an image part of the Harbor repository configured: `kubectl -n aguedes-ns run --image=harbor.tanzu.alexguedes.com/nginx/nginx:latest --restart=Never nginx`.
 
 ### Inspections
 11. Go to **Inspections** and run **New inspection**. Select the cluster created at the start. (This can take over 4 hours, so have a previoursly ran test to show results).
@@ -45,8 +45,9 @@ Three clusters will be used for the demo with the following configuration:
 ### Configuring Tanzu Build Service
 
 1. Show how kpack works and how it can be configured to push to Docker Registry - see **kpack** sub-directory.
-2. Make a change to GitHub repo and show a new image getting created on the management cluster. GitHub repo: https://github.com/aguedes-pivotal/drupal8-cnb
-3. Show Harbor and talk about image scanning, signage and replication.
+2. Show the GitHub repo with the application and explain what is in there.
+3. Make a change to GitHub repo and show a new image getting created on the management cluster. GitHub repo: https://github.com/aguedes-pivotal/drupal8-cnb
+4. Show Harbor and talk about image scanning, signage and replication.
 
 ### Deploying to Kubernetes
 

@@ -69,14 +69,22 @@ jobs:
 
 - name: update-drupal-pre-prod
   plan:
+  - task: sleep
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: sleep
+        args:
+        - 10
   - get: container-image
     passed: [deploy-image-pre-prod]
     trigger: true
     params:
       skip_download: true
   - put: drupal-http-endpoint-pre-prod
-
-
 
 - name: test-pre-prod-chrome
   plan:
@@ -130,7 +138,6 @@ jobs:
         path: "git-repo/concourse/ci/autotests/testrun.sh"
         args: ["git-repo/concourse/ci/autotests/requirements.txt", "git-repo/concourse/ci/autotests/"]
 
-
 - name: deploy-image-prod
   plan:
   - get: container-image
@@ -143,8 +150,19 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-prod}}
+
 - name: update-drupal-prod
   plan:
+  - task: sleep
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: sleep
+        args:
+        - 10
   - get: container-image
     passed: [deploy-image-prod]
     trigger: true
