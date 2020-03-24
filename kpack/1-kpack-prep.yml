@@ -9,7 +9,7 @@ metadata:
   namespace: kpack-builders
   name: default
 spec:
-  image: cloudfoundry/cnb:0.0.84-cflinuxfs3 # using this version because a bug with latest - revert back to cnb:full
+  image: cloudfoundry/cnb:full
 ---
 apiVersion: v1
 kind: Secret
