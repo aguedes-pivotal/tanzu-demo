@@ -2,5 +2,5 @@
 
 ```
 kubectl create ns harbor
-helm install harbor harbor/harbor -n harbor --set expose.type=loadBalancer,expose.tls.enabled=false,externalURL=http://harbor.tanzu.alexguedes.com
+helm install harbor harbor/harbor -n harbor --set expose.type=loadBalancer,expose.tls.enabled=false,registry.relativeurls=true,externalURL=http://harbor.tanzu.alexguedes.com
 ```
