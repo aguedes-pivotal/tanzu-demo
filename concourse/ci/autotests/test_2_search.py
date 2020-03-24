@@ -15,6 +15,8 @@ browsertype = os.environ['BROWSERTYPE']
 
 testName = "Search test using " + browsertype + " T:" + datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
+
+time.sleep(10)
 for i in range(1, 10):
     try:
 
