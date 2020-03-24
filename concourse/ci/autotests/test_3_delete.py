@@ -27,7 +27,10 @@ for i in range(1, 10):
                 "platform": "LINUX",
                 "name": testName
             })
-    except:
+        break
+    except Exception as E:
+        print (E)
+        print (zelEndpoint)
         print("Could not connect to zelenium endpoint Retry (%d/10)", i)
         time.sleep(10)
 
