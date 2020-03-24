@@ -3,4 +3,5 @@
 /datadog/README-with-secrets.md
 /kpack/dockerhub/1-kpack-prep-dockerhub-with-secrets.yml
 /kpack/1-kpack-prep-with-secrets.yml
-/sonobuoy/reports/*
+/sonobuoy/reports/*/*.tar.gz
+/sonobuoy/reports/pks*

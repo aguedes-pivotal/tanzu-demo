@@ -24,6 +24,8 @@ _Note that you will need to download and install the `tmc` cli to be able to aut
 ### Inspections
 11. Go to **Inspections** and run **New inspection**. Select the cluster created at the start. (This can take over 4 hours, so have a previoursly ran test to show results).
 
+12. Also talk about Sonobuoy and how you can run CIS benchmarks using the plugin. Show what a report could look like (there's an example in the sonobuoy/reports sub-directory).
+
 ## Application deployment steps [WIP]
 
 ![Demo flow](https://raw.githubusercontent.com/aguedes-pivotal/tanzu-demo/master/images/demo-flow.png "Demo flow")

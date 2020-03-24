@@ -1,0 +1,16 @@
+Plugin: kube-bench-node
+Status: failed
+Total: 24
+Passed: 15
+Failed: 8
+Skipped: 1
+
+Failed tests:
+2.1.4 Ensure that the --read-only-port argument is set to 0 (Scored)
+2.1.6 Ensure that the --protect-kernel-defaults argument is set to true (Scored)
+2.1.10 Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate (Scored)
+2.1.13 Ensure that the RotateKubeletServerCertificate argument is set to true (Scored)
+2.2.3 Ensure that the kubelet service file permissions are set to 644 or more restrictive (Scored)
+2.2.4 Ensure that the kubelet service file ownership is set to root:root (Scored)
+2.2.5 Ensure that the proxy kubeconfig file permissions are set to 644 or more restrictive (Scored)
+2.2.6 Ensure that the proxy kubeconfig file ownership is set to root:root (Scored)
