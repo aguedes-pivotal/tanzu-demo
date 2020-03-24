@@ -6,7 +6,6 @@ import os
 import datetime
 import urllib
 import sys
-
 zelEndpoint = os.environ['ZELENIUMENDPOINT']
 drupalEndpoint = os.environ['DRUPALENDPOINT']
 drupalUser = os.environ['DRUPALUSERNAME']
@@ -15,14 +14,21 @@ browsertype = os.environ['BROWSERTYPE']
 
 testName = "Create test using " + browsertype + " T:" + datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-driver = webdriver.Remote(
-   command_executor=zelEndpoint + "/wd/hub",
-   desired_capabilities={
-            "browserName": browsertype,
-            "platform": "LINUX",
-            "name": testName
-        })
 
+
+for i in range(1,10):
+    try:
+
+        driver = webdriver.Remote(
+           command_executor=zelEndpoint + "/wd/hub",
+           desired_capabilities={
+                    "browserName": browsertype,
+                    "platform": "LINUX",
+                    "name": testName
+                })
+    except:
+        print("Could not connect to zelenium endpoint Retry (%d/10)",i)
+        time.sleep(10)
 
 print("Live view of test can be found here: " + zelEndpoint + "/grid/admin/live")
 
