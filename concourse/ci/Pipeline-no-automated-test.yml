@@ -60,6 +60,16 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-pre-prod}}
+  - task: sleep
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: sleep
+        args:
+        - 10
 
 - name: update-drupal-pre-prod
   plan:
@@ -69,8 +79,6 @@ jobs:
     params:
       skip_download: true
   - put: drupal-http-endpoint-pre-prod
-
-
 
 - name: deploy-image-prod
   plan:
@@ -84,6 +92,17 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-prod}}
+  - task: sleep
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: sleep
+        args:
+        - 10
+
 - name: update-drupal-prod
   plan:
   - get: container-image
@@ -92,4 +111,5 @@ jobs:
     params:
       skip_download: true
   - put: drupal-http-endpoint-prod
+
 
