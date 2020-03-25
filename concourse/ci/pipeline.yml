@@ -66,9 +66,6 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-pre-prod}}
-
-- name: update-drupal-pre-prod
-  plan:
   - task: sleep
     config:
       platform: linux
@@ -79,6 +76,9 @@ jobs:
         path: sleep
         args:
         - 10
+
+- name: update-drupal-pre-prod
+  plan:
   - get: container-image
     passed: [deploy-image-pre-prod]
     trigger: true
@@ -150,9 +150,6 @@ jobs:
       kubectl: |
         set image deployment ((kubernetes-deployment)) ((kubernetes-container))=$(cat container-image/repository)@$(cat container-image/digest)
       wait_until_ready: {{kubernetes-wait-until-ready-prod}}
-
-- name: update-drupal-prod
-  plan:
   - task: sleep
     config:
       platform: linux
@@ -162,7 +159,10 @@ jobs:
       run:
         path: sleep
         args:
-        - 10
+        - 20
+
+- name: update-drupal-prod
+  plan:
   - get: container-image
     passed: [deploy-image-prod]
     trigger: true
