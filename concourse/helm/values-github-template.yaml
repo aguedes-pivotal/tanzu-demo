@@ -2,17 +2,18 @@ concourse:
     web:
         bindPort: 80
         localAuth:
-            enabled: true
+            enabled: false
         auth:
             mainTeam:
                 config: |
                   roles:
                   - name: owner
-                    local:
-                      users: ["admin"]
-                localUser: admin
+                    github:
+                      orgs: ["tanzu-uk-enterprise"]
+                github:
+                    org: tanzu-uk-enterprise
             github:
-                enabled: false
+                enabled: true
         kubernetes:
             enabled: true
         configRBAC: |
@@ -24,4 +25,5 @@ web:
     service:
         type: LoadBalancer
 secrets:
-    localUsers: "admin:keepitsimple"
+    githubClientId: githubClientId
+    githubClientSecret: githubClientSecret
