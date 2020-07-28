@@ -1,6 +1,5 @@
 concourse:
     web:
-        externalUrl: http://concourse.tanzu.alexguedes.com
         bindPort: 80
         localAuth:
             enabled: true

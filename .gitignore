@@ -1,7 +1,13 @@
 /concourse/ci/k8s.yml
+/concourse/helm/values-github.yaml
 /k8s/aguedes-aws-dev-1-automationadmin.yml
 /datadog/README-with-secrets.md
 /kpack/dockerhub/1-kpack-prep-dockerhub-with-secrets.yml
 /kpack/1-kpack-prep-with-secrets.yml
 /sonobuoy/reports/*/*.tar.gz
 /sonobuoy/reports/pks*
+/tbs/*/secrets
+/tbs/*/packages
+/tbs/*/relocated.json
+/tas
+/scripts/create-sa/kubeconfigs
