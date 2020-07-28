@@ -1,8 +1,0 @@
-source:
-  git:
-    url: https://github.com/aguedes-pivotal/drupal8-cnb
-    revision: master
-build:
-  env: []
-image:
-  tag: harbor.shared.tanzu.build/drupal8/druapl8-cnb

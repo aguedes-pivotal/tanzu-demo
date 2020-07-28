@@ -1,8 +1,0 @@
-source:
-  git:
-    url: https://github.com/aguedes-pivotal/spring-petclinic
-    revision: master
-build:
-  env: []
-image:
-  tag: harbor.shared.tanzu.build/spring/petclinic
