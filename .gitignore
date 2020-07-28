@@ -6,13 +6,8 @@
 /kpack/1-kpack-prep-with-secrets.yml
 /sonobuoy/reports/*/*.tar.gz
 /sonobuoy/reports/pks*
-<<<<<<< HEAD
 /tbs/*/secrets
 /tbs/*/packages
 /tbs/*/relocated.json
 /tas
-=======
-/tbs/secrets
-/tbs/packages
->>>>>>> 9bce99f1d1d0b48f2d760b3e6ca5e3d03db5bc1f
 /scripts/create-sa/kubeconfigs
