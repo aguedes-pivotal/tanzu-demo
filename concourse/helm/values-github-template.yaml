@@ -1,0 +1,29 @@
+concourse:
+    web:
+        bindPort: 80
+        localAuth:
+            enabled: false
+        auth:
+            mainTeam:
+                config: |
+                  roles:
+                  - name: owner
+                    github:
+                      orgs: ["tanzu-uk-enterprise"]
+                github:
+                    org: tanzu-uk-enterprise
+            github:
+                enabled: true
+        kubernetes:
+            enabled: true
+        configRBAC: |
+            owner:
+            - SetTeam
+            member:
+            - CreateBuild
+web:
+    service:
+        type: LoadBalancer
+secrets:
+    githubClientId: githubClientId
+    githubClientSecret: githubClientSecret

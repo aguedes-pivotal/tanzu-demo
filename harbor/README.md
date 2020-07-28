@@ -12,6 +12,7 @@ kubectl create rolebinding privileged-role-binding \
 kubectl create ns harbor
 helm repo add harbor https://helm.goharbor.io
 helm install harbor harbor/harbor -n harbor --set expose.type=loadBalancer,expose.tls.enabled=false,registry.relativeurls=true,externalURL=http://harbor.shared.tanzu.build
+<<<<<<< HEAD
 ```
 
 
@@ -23,3 +24,6 @@ helm upgrade harbor harbor/harbor -n harbor --version 1.4.1 \
     --set expose.tls.secretName=harbor-harbor-ingress-cert \
     --set notary.enabled=false \
     --set persistence.persistentVolumeClaim.registry.size=50Gi
+=======
+```
+>>>>>>> 9bce99f1d1d0b48f2d760b3e6ca5e3d03db5bc1f
